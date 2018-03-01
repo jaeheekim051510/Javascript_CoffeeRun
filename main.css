@@ -1,0 +1,13 @@
+ol li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+
+ol li:hover {
+    background: #ddd;
+}
+
+.close {
+    font-size: 15px;
+} 
