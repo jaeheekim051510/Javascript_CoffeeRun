@@ -1,6 +1,11 @@
 
-// CREATE THE VARIABLES FOR THE DOM ELEMENTS WE NEED TO WORK WITH
 
+// var URL = 'http://dc-coffeerun.herokuapp.com/api/coffeeorders'
+// $.get(URL, function(data) {
+//     console.log
+// })
+
+// CREATE THE VARIABLES FOR THE DOM ELEMENTS WE NEED TO WORK WITH
 var coffeeForm = document.querySelector("[data-coffee-order='form']");
 var coffeeOrder = document.querySelector("[name='coffee']");
 var emailAddress = document.querySelector("[name='emailAddress']");
@@ -12,7 +17,8 @@ var strength = document.querySelector("[name='strength']");
 var coffeeList = document.querySelector('.coffee-list');
 var NewCoffeeList = function(order) {
     var list = document.createElement('li');
-    list.textContent = order.toString();
+    var orderText = order.coffee + ' ' + order.email + ' ' + order.size + ' ' + order.flavor + ' ' + order.strength
+    list.textContent = orderText 
     coffeeList.appendChild(list);
 
     //removing from the list
@@ -29,9 +35,8 @@ orders.forEach(function(order) {
 
 //creating list of orders
 coffeeForm.addEventListener('submit', function(event){
-    var listOrder = [];
+    var listOrder = ({coffee:coffeeOrder.value, email: emailAddress.value, size: size.value, flavor: flavor.value, strength: strength.value});
     event.preventDefault();
-    listOrder.push([coffeeOrder.value, emailAddress.value, size.value, flavor.value, strength.value]);
     NewCoffeeList(listOrder);
     orders.push(listOrder);
 
