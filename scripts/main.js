@@ -6,6 +6,8 @@ var size = document.querySelector("[name='size']");
 var flavor = document.querySelector("[name='flavor']");
 var strength = document.querySelector("[name='strength']");
 
+var URL = 'http://dc-coffeerun.herokuapp.com/api/coffeeorders'
+
 // Listing orders on page
 var coffeeList = document.querySelector('.coffee-list');
 var NewCoffeeList = function(order) {
@@ -14,14 +16,14 @@ var NewCoffeeList = function(order) {
     list.textContent = orderText 
     coffeeList.appendChild(list);
     
-    //removing from the list
+    //removing from the list and data
     list.addEventListener('click', function(event){
         list.remove();
+        $.ajax(URL + '/' + order.emailAddress, {method:'delete'})
     });
 }
 
 //load data using ajex
-var URL = 'http://dc-coffeerun.herokuapp.com/api/coffeeorders'
 $.get(URL, function(data) {
     var orders = Object.values(data);
         orders.forEach(function(order) {
@@ -33,9 +35,10 @@ $.get(URL, function(data) {
 coffeeForm.addEventListener('submit', function(event){
     event.preventDefault();
     var listOrder = ({coffee:coffeeOrder.value, emailAddress: emailAddress.value, size: size.value, flavor: flavor.value, strength: strength.value});
-    //Add new order to data.
     $.post(URL, listOrder);
-
+    // $.post(URL, function(data){
+    //    data:listOrder 
+    // })
     NewCoffeeList(listOrder);
     // orders.push(listOrder);
     // localStorage.setItem('coffee', JSON.stringify(orders));
