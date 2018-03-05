@@ -3,7 +3,7 @@ var coffeeForm = document.querySelector("[data-coffee-order='form']");
 
 var coffeeOrder = document.querySelector("[name='coffee']");
 var emailAddress = document.querySelector("[name='emailAddress']");
-var size = document.querySelectorAll("[name='size']");
+var size = document.querySelector("[name='size']");
 var flavor = document.querySelector("[name='flavor']");
 var strength = document.querySelector("[name='strength']");
 
@@ -19,7 +19,7 @@ var NewCoffeeList = function(order) {
 
     // Click on a order list to hide the current list item and remove from data.
     list.addEventListener('click', function(event){
-        list.style.backgroundColor = 'green';
+        list.style.backgroundColor = '#3CB371';
         //Removes the list after 2 sec.
         setTimeout(function() {
             list.remove();
@@ -28,18 +28,23 @@ var NewCoffeeList = function(order) {
     });
 }
 
-//load data using ajex
-$.get(URL, function(data) {
+//load data using promise 
+var promise = $.get(URL);
+
+var gettingData = function(data) {
     var orders = Object.values(data);
-        orders.forEach(function(order) {
+        orders.forEach(function(order){
         NewCoffeeList(order);
-    })
-})
+    });
+};
+
+promise.then(gettingData);
+
 
 //creating list of orders
 coffeeForm.addEventListener('submit', function(event){
     event.preventDefault();
-    var listOrder = ({coffee:coffeeOrder.value, emailAddress: emailAddress.value, size: form.size.value, flavor: flavor.value, strength: strength.value});
+    var listOrder = ({coffee:coffeeOrder.value, emailAddress: emailAddress.value, size: size.value, flavor: flavor.value, strength: strength.value});
     $.post(URL, listOrder);
     NewCoffeeList(listOrder);
 });
