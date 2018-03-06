@@ -23,22 +23,24 @@ var NewCoffeeList = function(order) {
         //Removes the list after 2 sec.
         setTimeout(function() {
             list.remove();
-            $.ajax(URL + '/' + order.emailAddress, {method:'delete'})
+            fetch(URL + '/' + order.emailAddress, {method:'delete'})
         }, 2000);
     });
 }
 
-//load data using promise 
-var promise = $.get(URL);
-
+//load data using promises
 var gettingData = function(data) {
     var orders = Object.values(data);
         orders.forEach(function(order){
         NewCoffeeList(order);
-    });
+        console.log(data);
+    }); 
 };
 
-promise.then(gettingData);
+var promise = fetch(URL);
+promise.then(function(data){
+    return data.json();
+}).then(gettingData);
 
 
 //creating list of orders
